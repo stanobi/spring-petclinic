@@ -13,18 +13,18 @@ node {
    stage('Run Maven Container') {
        
         //Remove maven-build-container if it exisits
-       shell " docker rm -f maven-build-container"
+       sh " docker rm -f maven-build-container"
         
         //Run maven image
-       shell "docker run --rm --name maven-build-container maven-build"
+       sh "docker run --rm --name maven-build-container maven-build"
    }
    
    stage('Deploy Spring Boot Application') {
         
          //Remove maven-build-container if it exisits
-       shell " docker rm -f java-deploy-container"
+       sh " docker rm -f java-deploy-container"
 
-       shell "docker run --name java-deploy-container --volumes-from maven-build-container -d -p 9999:9999 denisdbell/petclinic-deploy"
+       sh "docker run --name java-deploy-container --volumes-from maven-build-container -d -p 9999:9999 denisdbell/petclinic-deploy"
    }
 
 }
